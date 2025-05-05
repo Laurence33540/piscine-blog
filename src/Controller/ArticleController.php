@@ -89,10 +89,10 @@ class ArticleController extends AbstractController {
 	#[Route('/delete-article/{id}', name: "delete-article")]
 	public function deleteArticle($id, ArticleRepository $articleRepository, EntityManagerInterface $entityManager) 
 	{
-		// pour supprimer un article, je dois d'abord le récupérer
+		// pour supprimer un article, je dois d'abord le récupérer avec find
 		$article = $articleRepository->find($id);
 
-		// j'utilise la méthode remove de la classe EntityManager qui prend en parametre l'article à supprimer
+		// j'utilise la méthode remove de la classe EntityManager qui prend en parametre l'article à supprimer et flush l'execute
 		$entityManager->remove($article);
 		$entityManager->flush();
 
