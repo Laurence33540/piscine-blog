@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
+
+    //c'est le mapping
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
