@@ -26,6 +26,7 @@ class PageController extends AbstractController {
 
 		// je retourne une réponse 404, incluant le HTML
 		return new Response($html, 404);
+
 	}
 
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block metatitle %}{% endblock metatitle %}</title>
+	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
+
+</head>
+<body>
+
+	<header class="header">
+
+		<a href="{{ path('home') }}">
+			<img class="logo-header" src="{{ asset('assets/img/logo.jpg') }}" alt="logo recettes" />
+		</a>
+
+		<nav class="nav-header">
+
+			<ul class="nav-menu">
+
+				<li><a href="{{ path('home') }}">Accueil</a></li>
+				<li><a href="{{ path('list-articles') }}">Liste des articles</a></li>
+			</ul>
+
+
+		</nav>
+
+	</header>
+
+<main class="main">
+
+	{% for message in app.flashes('success') %}
+		<div class="success-message">
+			<p>{{message}}</p>
+		</div>
+	{% endfor %}
+
+	{% block main %} 
+
+	{% endblock main %}
+
+</main>
+
+<footer class="footer">
+
+<p>Copyright David Robert, design factory</p>
+
+</footer>
+</body>
+</html>

@@ -1,29 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-</head>
-<body>
+{% extends 'base.html.twig' %}
 
-<main>
+{% block main %}
+
 
 <article>
 
 	<h1>{{ article.title }}</h1>
 
 	<p>{{ article.description }}</p>
-	<img src="{{ article.image }}" alt="{{ article.title }}" />
+	<img class="article-image" src="{{ article.image }}" alt="{{ article.title }}" />
 	<p>{{ article.content }}</p>
 	<p>Créé le {{ article.createdAt | date()}}</p>
 </article>
 
-
-
-
-
-</main>
-	
-</body>
-</html>
+{% endblock main %}
