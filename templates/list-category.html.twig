@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+	<h1>Liste des </h1>
+
+	<section class="category-list-container">catégories
+	
+		{% for categorie in categories %}
+
+			<article class="categorie">
+				<p>{{ categorie.title }}</p>
+				<img class="categorie-image" src="{{ categorie.image }}" alt="{{ categorie.title }}" />
+				<a href="{{ path('details-categorie', {'id' : categorie.id}) }}">Voir la categorie</a>
+			
+				
+			</article>
+
+		{% endfor %}
+
+	</section>
+
+{% endblock main %}

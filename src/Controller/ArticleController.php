@@ -23,19 +23,7 @@ class ArticleController extends AbstractController {
 			$content = $request->request->get('content');
 			$image = $request->request->get('image');
 
-			// méthode 1 (fonction setter)
-			// permet de créer un article
-			// utiliser les fonctions "set"
-			// pour remplir les données de l'instance de classe Article
-			//$article = new Article();
-			//$article->setTitle($title);
-			//$article->setDescription($description);
-			//$article->setContent($content);
-			//$article->setImage($image);
-			//$article->setIsPublished(true);
-			//$article->setCreatedAt(new \DateTime());
-
-
+			
 			// avec le constructor
 		    //$article = new Article(); new créer une nouvelle instance de classe
             //Article est une entité
@@ -67,8 +55,7 @@ class ArticleController extends AbstractController {
 
 		// je veux choisir un article avec find
 		#[Route('/details-article/{id}', name: "details-article")]
-		public function displayDetailsArticle($id, ArticleRepository $articleRepository)
-		{
+		public function displayDetailsArticle($id, ArticleRepository $articleRepository) {
 
 			$article = $articleRepository->find($id);
 
@@ -82,13 +69,10 @@ class ArticleController extends AbstractController {
 				'article' => $article
 			]);
 		}
- 
-	// cette méthode prend un id en parametre d'url, 
-	// récupère l'article avec le repository 
-	// et le supprime avec l'entity manager	
+
 	#[Route('/delete-article/{id}', name: "delete-article")]
-	public function deleteArticle($id, ArticleRepository $articleRepository, EntityManagerInterface $entityManager) 
-	{
+	public function deleteArticle($id, ArticleRepository $articleRepository, EntityManagerInterface $entityManager) {
+	
 		// pour supprimer un article, je dois d'abord le récupérer avec find
 		$article = $articleRepository->find($id);
 
@@ -103,5 +87,48 @@ class ArticleController extends AbstractController {
 		return $this->redirectToRoute('list-articles');
 	}
 
+	// cette méthode prend un id en parametre d'url, 
+	// récupère l'article avec le repository 
+	// et la modifier avec l'entity manager	
+	#[Route(path: '/update-article/{id}', name: "update-article")]
+	public function displayUpdateArticle($id, ArticleRepository $articleRepository, Request $request, EntityManagerInterface $entityManager) {
+		    
+		// pour modifier un article, je dois d'abord le récupérer avec find
+		$article = $articleRepository->find($id);
+
+
+		if ($request->isMethod("POST")) {
+
+			$title = $request->request->get('title');
+			$description = $request->request->get('description');
+			$content = $request->request->get('content');
+			$image = $request->request->get('image');
+						
+			// méthode 1 : mise à jour de l'article avec les fonctions set (setter)
+			//$article->setTitle($title);
+			//$article->setDescription($description);
+			//$article->setContent($content);
+			//$article->setImage($image);
+
+			// méthode : mise de l'article avec une méthode update (respecte l'encapsulation)
+			$article->update($title, $content, $description, $image);
+
+			// j'utilise la classe entityManager de symfony 
+			// pour récupérer toutes les valeurs de l'entité Article créée
+			// et les enregistrer dans la table article correspondante à l'entité (via SQL insert)
+			$entityManager->persist($article);
+			$entityManager->flush();
+		}
+
+			// j'ajoute un message flash pour notifier que l'article est modifié
+		    $this->addFlash('success', 'article modifié');
+		
+		
+
+		return $this->render('update-article.html.twig', [
+			'article' => $article
+		]);
+
+	}
 
 }
